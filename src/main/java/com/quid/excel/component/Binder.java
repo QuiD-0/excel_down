@@ -3,11 +3,13 @@ package com.quid.excel.component;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import lombok.SneakyThrows;
 import org.dhatim.fastexcel.Workbook;
 import org.dhatim.fastexcel.Worksheet;
 
 public class Binder<Data> {
 
+    private final static Integer FLUSH_SIZE = 100000;
     private final OutputStream outputStream;
     private final String sheetName;
     private final DataValues<Data> data;
@@ -28,8 +30,8 @@ public class Binder<Data> {
         Workbook workbook = new Workbook(outputStream, sheetName, "1.0");
         Worksheet worksheet = workbook.newWorksheet(sheetName);
         headerDatas(worksheet, data.headerValue);
-        fieldDatas(worksheet, data.fieldValue);
         try {
+            fieldDatas(worksheet, data.fieldValue);
             workbook.finish();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -47,12 +49,19 @@ public class Binder<Data> {
 
     }
 
-    private void fieldDatas(Worksheet sheet, List<DataValues.FieldValue<Data>> fieldValues) {
+    @SneakyThrows
+    private void fieldDatas(Worksheet sheet, List<DataValues.FieldValue<Data>> fieldValues)
+        throws IOException {
         for (int row = 0; row < fieldValues.size(); row++) {
             for (int col = 0; col < fieldValues.get(row).size(); col++) {
                 sheet.value(row + 1, col, fieldValues.get(row).get(col));
             }
+            if (row % FLUSH_SIZE == 0) {
+                sheet.flush();
+            }
         }
+        sheet.flush();
+        sheet.finish();
     }
 
     private void defaultHeader(Worksheet sheet, Integer headerSize) {
