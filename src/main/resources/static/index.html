@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<button onclick="streamDown()">스트리밍</button>
+<button onclick="normalDown()">일빈</button>
+</body>
+<script>
+  function streamDown() {
+    window.open(
+        "http://localhost:8080/sample/stream",
+        "_self", 'width=200, height=200, left=2000, top=2000'
+    )
+  }
+
+  function normalDown() {
+    window.open(
+        "http://localhost:8080/sample/kr",
+        "_self", 'width=200, height=200, left=2000, top=2000'
+    )
+  }
+</script>
+</html>

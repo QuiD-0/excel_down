@@ -39,7 +39,7 @@ public class SampleController {
 
     @GetMapping("/kr")
     public void sampleKr(HttpServletResponse response) {
-        List<SampleData> sample = getData(3);
+        List<SampleData> sample = getData(1000000);
         excel.download(response, "sample", sample, KR);
     }
 
