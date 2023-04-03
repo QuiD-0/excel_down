@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <button onclick="streamDown()">스트리밍</button>
@@ -10,17 +11,33 @@
 </body>
 <script>
   function streamDown() {
-    window.open(
-        "http://localhost:8080/sample/stream",
-        "_self", 'width=200, height=200, left=2000, top=2000'
-    )
+    excelDown("http://localhost:8080/sample/stream")
   }
 
   function normalDown() {
-    window.open(
-        "http://localhost:8080/sample/kr",
-        "_self", 'width=200, height=200, left=2000, top=2000'
-    )
+    excelDown("http://localhost:8080/sample")
+  }
+
+  function excelDown(url){
+    axios.get(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'lang': 'KO',
+      },
+      responseType: 'blob'
+    })
+    .then(function (response) {
+      const url = window.URL.createObjectURL(new Blob([response.data], { type: response.headers['content-type'] }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', response.headers['content-disposition'].split('=')[1]);
+      document.body.appendChild(link);
+      link.click();
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 </script>
 </html>

@@ -1,7 +1,7 @@
 package com.quid.excel.controller;
 
 import static com.quid.excel.component.Internationalization.EN;
-import static com.quid.excel.component.Internationalization.KR;
+import static com.quid.excel.component.Internationalization.KO;
 
 import com.quid.excel.component.Internationalization;
 import com.quid.excel.controller.response.SampleData;
@@ -24,10 +24,9 @@ public class SampleController {
     private final ExcelDownloadService excel;
 
     @GetMapping
-    public void sample(@RequestHeader("Lang") Internationalization lang,
+    public void sample(@RequestHeader("lang") Internationalization lang,
         HttpServletResponse response) {
-        List<SampleData> sample = getData(3);
-
+        List<SampleData> sample = getData(10);
         excel.download(response, "sample", sample, lang);
     }
 
@@ -40,13 +39,13 @@ public class SampleController {
     @GetMapping("/kr")
     public void sampleKr(HttpServletResponse response) {
         List<SampleData> sample = getData(1000000);
-        excel.download(response, "sample", sample, KR);
+        excel.download(response, "sample", sample, KO);
     }
 
     @GetMapping("/stream")
     public void sampleStream(HttpServletResponse response) {
         List<SampleData> sample = getData(1000000);
-        excel.download(response, "sample", sample, KR);
+        excel.download(response, "sample", sample, KO);
     }
 
     private List<SampleData> getData(Integer count) {

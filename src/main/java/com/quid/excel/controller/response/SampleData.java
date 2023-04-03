@@ -1,14 +1,14 @@
 package com.quid.excel.controller.response;
 
 import static com.quid.excel.component.Internationalization.EN;
-import static com.quid.excel.component.Internationalization.KR;
+import static com.quid.excel.component.Internationalization.KO;
 
 import com.quid.excel.component.FieldsHeaders;
 import com.quid.excel.component.Headers;
 
 @FieldsHeaders(
     i18n = {
-        @Headers(code = KR, fields = {"이름", "나이", "주소"}),
+        @Headers(code = KO, fields = {"이름", "나이", "주소"}),
         @Headers(code = EN, fields = {"name", "age", "address"})
     }
 )
