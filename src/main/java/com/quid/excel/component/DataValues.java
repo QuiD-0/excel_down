@@ -24,8 +24,13 @@ class DataValues<Data> {
         FieldValue(Data data) {
             Class<?> clazz = data.getClass();
             this.list = stream(clazz.getDeclaredFields())
+                .filter(FieldValue::exclude)
                 .map(field -> getString(data, field))
                 .collect(toList());
+        }
+
+        private static boolean exclude(Field field) {
+            return !field.isAnnotationPresent(ExcelExclude.class);
         }
 
         Integer size() {
