@@ -39,7 +39,7 @@ class DataValues<Data> {
         private String getString(Data data, Field field) {
             field.setAccessible(true);
             try {
-                return (String) field.get(data);
+                return String.valueOf(field.get(data));
             } catch (IllegalAccessException e) {
                 return "";
             } finally {
