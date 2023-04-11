@@ -44,6 +44,8 @@ class DataValues<Data> {
         private String getString(Data data, Field field) {
             field.setAccessible(true);
             try {
+                if (field.get(data) == null)
+                    return "";
                 return String.valueOf(field.get(data));
             } catch (IllegalAccessException e) {
                 return "";
